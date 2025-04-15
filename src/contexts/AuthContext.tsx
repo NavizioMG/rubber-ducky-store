@@ -1,6 +1,6 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { Session, User } from '@supabase/supabase-js';
+import { Session, User, AuthError } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 
@@ -9,11 +9,11 @@ interface AuthContextType {
   session: Session | null;
   isLoading: boolean;
   signIn: (email: string, password: string) => Promise<{
-    error: Error | null;
+    error: AuthError | null;
     data: Session | null;
   }>;
   signUp: (email: string, password: string) => Promise<{
-    error: Error | null;
+    error: AuthError | null;
     data: Session | null;
   }>;
   signOut: () => Promise<void>;
@@ -65,7 +65,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       email,
       password,
     });
-    return response;
+    
+    return {
+      data: response.data.session,
+      error: response.error
+    };
   };
 
   const signUp = async (email: string, password: string) => {
@@ -73,7 +77,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       email,
       password,
     });
-    return response;
+    
+    return {
+      data: response.data.session,
+      error: response.error
+    };
   };
 
   const signOut = async () => {

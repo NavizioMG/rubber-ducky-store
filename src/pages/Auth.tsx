@@ -61,7 +61,7 @@ export const Auth = () => {
         throw error;
       }
       
-      if (data.session) {
+      if (data) {
         // If session exists (auto sign-in), navigate to account page
         navigate('/account');
       } else {
