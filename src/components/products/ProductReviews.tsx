@@ -1,15 +1,16 @@
 
 import { useState } from "react";
-import { Star, UserCircle2 } from "lucide-react";
+import { Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { ReviewCard } from "./ReviewCard";
+import { ReviewStats } from "./ReviewStats";
 import { 
   getReviewsByProductId, 
   getAverageRating,
   getRatingCounts,
-  Review
 } from "@/data/reviews";
 
 interface ProductReviewsProps {
@@ -21,7 +22,6 @@ export const ProductReviews = ({ productId }: ProductReviewsProps) => {
   const reviews = getReviewsByProductId(productId);
   const averageRating = getAverageRating(productId);
   const ratingCounts = getRatingCounts(productId);
-  
   const totalReviews = reviews.length;
   
   return (
@@ -106,98 +106,13 @@ export const ProductReviews = ({ productId }: ProductReviewsProps) => {
         </div>
         
         <div>
-          <div className="bg-ducky-yellow/20 p-6 rounded-lg">
-            <h3 className="font-bold text-lg mb-4 text-black">Overall Customer Reviews</h3>
-            
-            <div className="flex items-center mb-4">
-              {Array(5).fill(0).map((_, i) => (
-                <Star 
-                  key={i} 
-                  className={`h-5 w-5 ${
-                    i < Math.round(averageRating) 
-                      ? "fill-ducky-red text-ducky-red" 
-                      : "text-gray-300"
-                  }`} 
-                />
-              ))}
-              <span className="ml-2 font-bold text-black">
-                {averageRating.toFixed(1)} out of 5
-              </span>
-            </div>
-            
-            <p className="text-sm text-black/70 mb-4">
-              Based on {totalReviews} review{totalReviews !== 1 ? 's' : ''}
-            </p>
-            
-            <div className="space-y-2">
-              {[5, 4, 3, 2, 1].map((rating) => (
-                <div key={rating} className="flex items-center">
-                  <div className="w-12 text-sm text-black/70">{rating} star</div>
-                  <div className="flex-1 mx-4 h-2 bg-gray-200 rounded-full overflow-hidden">
-                    <div 
-                      className="h-full bg-ducky-red" 
-                      style={{ 
-                        width: `${totalReviews ? (ratingCounts[rating] / totalReviews) * 100 : 0}%` 
-                      }}
-                    ></div>
-                  </div>
-                  <div className="w-8 text-sm text-black/70 text-right">
-                    {ratingCounts[rating]}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const ReviewCard = ({ review }: { review: Review }) => {
-  return (
-    <div className="border-b border-gray-200 pb-6">
-      <div className="flex items-center mb-3">
-        <UserCircle2 className="h-10 w-10 text-gray-400 mr-3" />
-        <div>
-          <p className="font-semibold text-black">{review.name}</p>
-          <p className="text-xs text-black/60">
-            {new Date(review.date).toLocaleDateString('en-US', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric'
-            })}
-          </p>
-        </div>
-      </div>
-      
-      <div className="flex mb-2">
-        {Array(5).fill(0).map((_, i) => (
-          <Star 
-            key={i} 
-            className={`h-4 w-4 ${
-              i < review.rating 
-                ? "fill-ducky-red text-ducky-red" 
-                : "text-gray-300"
-            }`} 
+          <ReviewStats 
+            averageRating={averageRating}
+            totalReviews={totalReviews}
+            ratingCounts={ratingCounts}
           />
-        ))}
-      </div>
-      
-      <h4 className="font-bold text-black mb-2">{review.title}</h4>
-      <p className="text-black/70 mb-4">{review.content}</p>
-      
-      {review.images && review.images.length > 0 && (
-        <div className="flex flex-wrap gap-2 mt-3">
-          {review.images.map((image, i) => (
-            <div key={i} className="w-16 h-16 rounded overflow-hidden">
-              <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-                <span className="text-black/50 text-xs">Review Image</span>
-              </div>
-            </div>
-          ))}
         </div>
-      )}
+      </div>
     </div>
   );
 };
