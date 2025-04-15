@@ -1,4 +1,3 @@
-
 export interface Product {
   id: string;
   name: string;
@@ -24,6 +23,9 @@ export interface Product {
   };
   featured: boolean;
   category: string;
+  isBundle?: boolean;
+  originalPrice?: number;
+  bundleItems?: string[];
 }
 
 export const products: Product[] = [
@@ -152,6 +154,43 @@ export const products: Product[] = [
     category: "Classics"
   }
 ];
+
+// Add a new bundle product
+products.push({
+  id: "bundle-1",
+  name: "Variety Pack",
+  slug: "variety-pack",
+  price: 45.99,
+  originalPrice: 51.96,
+  description: "Try all four of our signature flavors in one convenient pack. Perfect for those who want to explore our full range or share with friends!",
+  shortDescription: "All four signature flavors in one pack",
+  image: "/images/products/bundle-pack.png",
+  gallery: [
+    "/images/products/bundle-pack.png",
+    "/images/products/yellow-can.png",
+    "/images/products/pink-can.png",
+    "/images/products/green-can.png",
+    "/images/products/blue-can.png"
+  ],
+  ingredients: "See individual products for ingredients",
+  nutrition: {
+    servingSize: "12 fl oz (355ml)",
+    calories: 45,
+    totalFat: 0,
+    saturatedFat: 0,
+    transFat: 0,
+    cholesterol: 0,
+    sodium: 10,
+    totalCarbs: 10,
+    dietaryFiber: 0,
+    sugars: 9,
+    protein: 0
+  },
+  featured: true,
+  category: "Bundles",
+  isBundle: true,
+  bundleItems: ["1", "2", "3", "4"]
+});
 
 export const getProductBySlug = (slug: string): Product | undefined => {
   return products.find(product => product.slug === slug);

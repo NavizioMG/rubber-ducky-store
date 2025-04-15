@@ -8,6 +8,7 @@ import { Testimonials } from "@/components/home/Testimonials";
 import { Features } from "@/components/home/Features";
 import { FAQ } from "@/components/home/FAQ";
 import { SocialMedia } from "@/components/home/SocialMedia";
+import { ArticlesPreview } from "@/components/home/ArticlesPreview";
 
 const Index = () => {
   return (
@@ -19,6 +20,7 @@ const Index = () => {
         <ProductGrid />
         <Testimonials />
         <Features />
+        <ArticlesPreview />
         <FAQ />
         <SocialMedia />
       </main>
