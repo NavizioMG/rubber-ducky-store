@@ -1,13 +1,13 @@
 
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { X } from "lucide-react";
+import { NewsletterSignup } from "./NewsletterSignup";
+import { useNewsletterState } from "@/hooks/useNewsletterState";
 
 export const NewsletterBanner = () => {
-  const [isVisible, setIsVisible] = useState(true);
+  const { isBannerDismissed, dismissBanner } = useNewsletterState();
 
-  if (!isVisible) return null;
+  if (isBannerDismissed) return null;
 
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-ducky-yellow p-4 shadow-lg z-50">
@@ -18,18 +18,13 @@ export const NewsletterBanner = () => {
             Subscribe to our newsletter for exclusive deals and updates.
           </p>
         </div>
-        <div className="flex flex-1 gap-2">
-          <Input 
-            type="email" 
-            placeholder="Enter your email" 
-            className="flex-1 bg-white"
-          />
-          <Button variant="red">Subscribe</Button>
+        <div className="flex-1">
+          <NewsletterSignup source="banner" />
         </div>
         <Button
           variant="ghost"
           size="icon"
-          onClick={() => setIsVisible(false)}
+          onClick={dismissBanner}
           className="absolute top-2 right-2"
         >
           <X className="h-4 w-4" />

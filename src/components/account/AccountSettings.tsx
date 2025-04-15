@@ -26,8 +26,15 @@ export const AccountSettings = () => {
         <div className="space-y-4">
           <h3 className="text-lg font-semibold">Communication Preferences</h3>
           <div className="flex items-center space-x-2">
-            <Switch id="newsletter" />
-            <Label htmlFor="newsletter">Subscribe to newsletter</Label>
+            <Switch 
+              id="newsletter" 
+              // This will be connected to Supabase later
+              defaultChecked={false}
+              onCheckedChange={(checked) => {
+                console.log('Newsletter opt-in:', checked);
+              }}
+            />
+            <Label htmlFor="newsletter">Subscribe to newsletter and special offers</Label>
           </div>
         </div>
 
