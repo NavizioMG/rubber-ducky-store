@@ -6,11 +6,14 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
+import { Loader2 } from "lucide-react";
 
 export const AccountSettings = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [newsletterOptIn, setNewsletterOptIn] = useState(false);
   const { toast } = useToast();
+  const { user, signOut } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -59,15 +62,14 @@ export const AccountSettings = () => {
     <Card className="p-6">
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold">Profile Information</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <h3 className="text-lg font-semibold">Account Information</h3>
+          <div className="grid grid-cols-1 gap-4">
             <div>
-              <Label htmlFor="firstName">First Name</Label>
-              <Input id="firstName" placeholder="John" />
-            </div>
-            <div>
-              <Label htmlFor="lastName">Last Name</Label>
-              <Input id="lastName" placeholder="Doe" />
+              <Label htmlFor="email">Email Address</Label>
+              <Input id="email" value={user?.email || ''} disabled />
+              <p className="text-sm text-gray-500 mt-1">
+                Your email address is used for logging in and cannot be changed
+              </p>
             </div>
           </div>
         </div>
@@ -84,13 +86,30 @@ export const AccountSettings = () => {
           </div>
         </div>
 
-        <Button 
-          type="submit" 
-          variant="yellow"
-          disabled={isLoading}
-        >
-          {isLoading ? "Saving..." : "Save Changes"}
-        </Button>
+        <div className="flex flex-col sm:flex-row gap-4">
+          <Button 
+            type="submit" 
+            variant="yellow"
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Saving...
+              </>
+            ) : (
+              'Save Changes'
+            )}
+          </Button>
+          
+          <Button 
+            type="button" 
+            variant="outline"
+            onClick={() => signOut()}
+          >
+            Sign Out
+          </Button>
+        </div>
       </form>
     </Card>
   );
