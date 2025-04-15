@@ -24,6 +24,13 @@ export default {
 				ring: 'hsl(var(--ring))',
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
+				// Brand colors
+				ducky: {
+					yellow: '#FDF22A',
+					red: '#D74A39',
+					blue: '#3399FF',
+					cream: '#FFFCE3'
+				},
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
 					foreground: 'hsl(var(--primary-foreground))'
