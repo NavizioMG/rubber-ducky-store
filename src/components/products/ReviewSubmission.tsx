@@ -3,26 +3,41 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Star } from "lucide-react";
+import { Star, LogIn } from "lucide-react";
+import { Link } from "react-router-dom";
 
-export const ReviewSubmission = () => {
+export const ReviewSubmission = ({ isLoggedIn = false }: { isLoggedIn?: boolean }) => {
   const [rating, setRating] = useState(0);
   const [hoveredRating, setHoveredRating] = useState(0);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Placeholder for auth check and submission logic
+    // Will be implemented with auth later
     console.log("Review submission will be implemented with auth");
   };
+
+  if (!isLoggedIn) {
+    return (
+      <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
+        <div className="text-center py-8">
+          <h3 className="text-xl font-bold mb-4">Write a Review</h3>
+          <p className="text-gray-600 mb-6">
+            Please sign in to share your experience with this product.
+          </p>
+          <Link to="/auth">
+            <Button variant="yellow" className="w-full sm:w-auto">
+              <LogIn className="w-4 h-4 mr-2" />
+              Sign in to Review
+            </Button>
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
       <h3 className="text-xl font-bold mb-4">Write a Review</h3>
-      <div className="bg-ducky-yellow/20 text-black p-4 rounded-md mb-6">
-        <p className="text-sm">
-          Note: You'll need to be logged in to submit a review. This feature will be enabled soon!
-        </p>
-      </div>
       
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
